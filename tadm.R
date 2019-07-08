@@ -18,7 +18,7 @@ tadm_area <- function(path, sheet){
   
   print(paste("Loading TADM data from ", path))
   stopifnot(typeof(sheet) %in% c("double", "integer"))
-  print(paste('Sheet: ', excel_sheets(path)[sheet]))
+  print(paste('Sheet:', excel_sheets(path)[sheet]))
 
   # Load the rest of the data
   data <- read_excel(path, sheet = sheet) %>%
