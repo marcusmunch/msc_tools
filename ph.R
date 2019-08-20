@@ -42,3 +42,32 @@ ph_data <- function(path, plates){
   
   return(data)
 }
+
+
+ph_vmax <- function(path, plates){
+  if(missing(plates)){
+    print("No plates were given, so assuming plates 1-4")
+    plates = c(1, 2, 3, 4)
+  }
+  require(tidyverse)
+  require(readxl)
+  
+  # Read the data and remove columns at the end
+  data <- read_excel(path, skip = 2, .name_repair = "unique")
+  
+  # Remove square brackets from column names
+  for(i in 1:ncol(data)){
+    if(grepl("^[[].*[]]$", colnames(data)[i])){
+      col_name <- colnames(data)[i]
+      colnames(data)[i] <- substr(col_name, 2, nchar(col_name) - 1)
+    }
+  }
+  
+  # Select desired plates
+  data <- data %>%
+    filter(Plate %in% plates) %>%
+    mutate_at("Plate", as.character) %>%
+    select(Chcc, Plate, Vmax = `Vmax, 1hr`)
+  
+  return(data)
+}
