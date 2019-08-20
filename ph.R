@@ -37,7 +37,8 @@ ph_data <- function(path, plates){
   # Remove columns starting with first empty column
     gather(key = "time", value = "pH",
            colnames(.)[which(colnames(data) == "0"):length(.)]) %>%
-    select(time, Chcc, Plate, pH, everything())
+    select(time, Chcc, Plate, pH, everything()) %>%
+    mutate_at("time", as.numeric)
   
   return(data)
 }
