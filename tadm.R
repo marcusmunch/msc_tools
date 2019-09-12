@@ -16,9 +16,9 @@ tadm_area <- function(path, sheet){
   require(tidyverse)
   require(readxl)
   
-  print(paste("Loading TADM data from ", path))
+  message(paste("Loading TADM data from ", path))
   stopifnot(typeof(sheet) %in% c("double", "integer"))
-  print(paste('Sheet:', excel_sheets(path)[sheet]))
+  message(paste('Sheet:', excel_sheets(path)[sheet]))
 
   # Load the rest of the data
   data <- read_excel(path, sheet = sheet) %>%

@@ -13,7 +13,7 @@ ph_data <- function(path, plates){
   #' This function reads data from an Excel sheet. It picks out desired plates
   #' and returns pH data over time in long form.
   if(missing(plates)){
-    print("No plates were given, so assuming plates 1-4")
+    message("No plates were given, so assuming plates 1-4")
     plates = c(1, 2, 3, 4)
   }
   require(tidyverse)
@@ -46,7 +46,7 @@ ph_data <- function(path, plates){
 
 ph_vmax <- function(path, plates){
   if(missing(plates)){
-    print("No plates were given, so assuming plates 1-4")
+    message("No plates were given, so assuming plates 1-4")
     plates = c(1, 2, 3, 4)
   }
   require(tidyverse)
