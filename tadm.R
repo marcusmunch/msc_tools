@@ -3,7 +3,7 @@
 #' This file contains a script/scripts to handle TADM data. It takes data with
 #' following criteria:
 #' 
-#'  * Top left field
+#'  * Top left field contains an identifier for present plate
 #'  * Rest of fields in top row contain well identifiers
 #'  * Data beginning in 7th row with time in leftmost column
 #'
