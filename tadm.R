@@ -19,8 +19,8 @@ tadm_area <- function(path, sheets){
 
   # Set default parameter
   if(missing(sheets)){
-    sheets = 1:length(excel_sheets(path))
-    print(paste("Sheets changed to:", sheets))
+    message("No 'sheets' entered, loading all")
+    sheets <- 1:length(excel_sheets(path))
   }
 
   stopifnot(typeof(sheets) %in% c("double", "integer"))
