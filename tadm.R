@@ -14,6 +14,9 @@ tadm_area <- function(path, sheets){
   #' that are below 0 and returns the data in long form. If no sheet(s) is entered,
   #' all sheets will be read.
 
+  require(tidyverse)
+  require(readxl)
+
   # Set default parameter
   if(missing(sheets)){
     sheets = 1:length(excel_sheets(path))
@@ -21,9 +24,6 @@ tadm_area <- function(path, sheets){
   }
 
   stopifnot(typeof(sheets) %in% c("double", "integer"))
-
-  require(tidyverse)
-  require(readxl)
 
   message(paste("Loading TADM data from ", path))
   
