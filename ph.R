@@ -71,3 +71,22 @@ ph_vmax <- function(path, plates){
   
   return(data)
 }
+
+ph_logger_data <- function(path){
+  #' Load data from pH logger
+  require(tidyverse)
+  require(readxl)
+  
+  # Read data from file
+  data <- read_excel(path)[-1,]
+  
+  # Remove trailing " h" from time
+  data <- data %>%
+    mutate(Time = str_replace(Time, ",", ".")) %>%
+    mutate(Time = substr(Time, 1, nchar(Time) - 2)) %>%
+    
+  # Convert all columns to numeric
+    mutate_all(as.numeric)
+  
+  return(data)
+}
