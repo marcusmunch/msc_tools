@@ -9,6 +9,10 @@
 #'   * Data set ends at the first column with no header.
 #'
 
+# Package requirements
+require(tidyverse)
+require(readxl)
+
 ph_data <- function(path, plates){
   #' This function reads data from an Excel sheet. It picks out desired plates
   #' and returns pH data over time in long form.
@@ -16,8 +20,6 @@ ph_data <- function(path, plates){
     message("No plates were given, so assuming plates 1-4")
     plates = c(1, 2, 3, 4)
   }
-  require(tidyverse)
-  require(readxl)
   
   # Read the data and remove columns at the end
   data <- read_excel(path, skip = 2, .name_repair = "minimal")
@@ -40,6 +42,15 @@ ph_data <- function(path, plates){
     select(time, Chcc, Plate, pH, everything()) %>%
     mutate_at("time", as.numeric)
   
+  # Update genus/species/subspecies from file
+  updated <- read_excel(paste0("../static/", list.files("../static", pattern="[[:digit:]]{6}_names_.*[.]xlsx") %>% last())) %>%
+    select(`Plate Setup`, Well, Genus, Species, Subspecies)
+
+  data <-
+    left_join(data, updated, by = c("Plate Setup", "Well"), suffix = c("_old", "_new")) %>%
+    rename(Genus = Genus_new, Species = Species_new, Subspecies = Subspecies_new) %>%
+    select(-Genus_old, -Species_old, -Subspecies_old)
+
   return(data)
 }
 
@@ -49,8 +60,6 @@ ph_vmax <- function(path, plates){
     message("No plates were given, so assuming plates 1-4")
     plates = c(1, 2, 3, 4)
   }
-  require(tidyverse)
-  require(readxl)
   
   # Read the data and remove columns at the end
   data <- read_excel(path, skip = 2, .name_repair = "unique")
@@ -74,8 +83,6 @@ ph_vmax <- function(path, plates){
 
 ph_logger_data <- function(path){
   #' Load data from pH logger
-  require(tidyverse)
-  require(readxl)
   
   # Read data from file
   data <- read_excel(path)[-1,]
